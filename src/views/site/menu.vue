@@ -36,36 +36,9 @@
 </template>
 <script>
 export default {
-  props: ['footer'],
+  props: ['items'],
   data () {
     return {
-      items: [
-        {
-          title: 'home',
-          active: true,
-          icon: 'mdi-home',
-          subItems: [
-            {
-              title: 'Dashboard',
-              to: '/'
-            },
-            {
-              title: 'About',
-              to: '/about'
-            }
-          ]
-        },
-        {
-          title: 'about',
-          icon: 'mdi-account',
-          subItems: [
-            {
-              title: 'xxx',
-              to: '/xxx'
-            }
-          ]
-        }
-      ]
     }
   }
 }
