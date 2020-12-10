@@ -18,7 +18,7 @@
 </template>
 <script>
 export default {
-  props: ['title'],
+  props: ['title'], // app.vue에서 받은 데이터
   data () {
     return {
       dialog: false,
@@ -31,7 +31,7 @@ export default {
     },
     async save () {
       try {
-        await this.$firebase.database().ref().child('site').update({ title: this.text })
+        await this.$firebase.database().ref().child('site').update({ title: this.text }) // 제목 수정
       } finally {
         this.dialog = false
       }

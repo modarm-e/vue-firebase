@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuetify, { VSnackbar, VBtn, VIcon } from 'vuetify/lib'
-import VuetifyToast from 'vuetify-toast-snackbar'
+import VuetifyToast from 'vuetify-toast-snackbar' // 오류 catch를 해주는 라이브러리
 
 const veutifyObj = new Vuetify({
   theme: { dark: false }

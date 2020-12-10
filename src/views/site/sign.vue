@@ -1,6 +1,6 @@
 <template>
-  <v-progress-circular indeterminate v-if="loading"></v-progress-circular>
-  <v-menu offset-y v-else-if="!$store.state.fireUser">
+  <v-progress-circular indeterminate v-if="loading"></v-progress-circular><!--로그인 중일때 보이는 로딩 화면-->
+  <v-menu offset-y v-else-if="!$store.state.fireUser"><!-- 비로그인 상태 -->
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on"><v-icon>mdi-account</v-icon></v-btn>
     </template>
@@ -12,7 +12,7 @@
       </v-card-actions>
     </v-card>
   </v-menu>
-  <v-menu offset-y v-else>
+  <v-menu offset-y v-else><!-- 로그인 상태 -->
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
         <v-avatar size="24">
@@ -20,12 +20,12 @@
         </v-avatar>
       </v-btn>
     </template>
-    <v-card>
+    <v-card class="pa-2">
       <v-card-title>정보</v-card-title>
-      <v-text block>{{$store.state.fireUser.displayName}} 님</v-text>
+      <v-text class="mx-3">{{$store.state.fireUser.displayName}} 님</v-text>
       <v-divider/>
       <v-card-actions>
-        <v-btn dark @click="signOut" block>로그아웃</v-btn>
+        <v-btn  class="mt-2" dark @click="signOut" block>로그아웃</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
@@ -39,20 +39,20 @@ export default {
     }
   },
   methods: {
-    async signInWithGoogle () {
-      const provider = new this.$firebase.auth.GoogleAuthProvider()
-      this.$firebase.auth().languageCode = 'ko'
+    async signInWithGoogle () { // google login
+      const provider = new this.$firebase.auth.GoogleAuthProvider() // 구글제공 객체의 인스턴스를 생성
+      this.$firebase.auth().languageCode = 'ko' // 로그인과정 한글화
       this.loading = true
       try {
-        const sn = await this.$firebase.auth().signInWithPopup(provider)
-        this.$store.commit('setFireUser', sn.user)
+        const sn = await this.$firebase.auth().signInWithPopup(provider) // 팝업창 로그인화면
+        this.$store.commit('setFireUser', sn.user) // 사용자 정보 store에 저장
         console.log(sn.user)
       } finally {
         this.loading = false
       }
     },
     signOut () {
-      this.$firebase.auth().signOut()
+      this.$firebase.auth().signOut() // 로그아웃
     }
   }
 }
