@@ -11,6 +11,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/about',
+    name: 'About',
+    component: () => import('../views/site/about.vue')
+  },
+  {
     path: '/calendar',
     name: 'Calendar',
     component: () => import('../views/Calendar.vue')
@@ -19,11 +24,6 @@ const routes = [
     path: '/board',
     name: 'board',
     component: () => import('../views/board/index.vue')
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/site/about.vue')
   },
   {
     path: '/storage',
@@ -38,6 +38,11 @@ const routes = [
   {
     path: '/:collection/:document',
     name: 'collection-document',
+    component: () => import('../views/renderer.vue')
+  },
+  {
+    path: '/:collection/:document/:action',
+    name: 'collection-document-action',
     component: () => import('../views/renderer.vue')
   },
   {
