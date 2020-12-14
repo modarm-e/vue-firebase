@@ -13,7 +13,7 @@
     <v-navigation-drawer
         app
         v-model="drawer"
-        width="350"
+        width="370"
       >
       <site-menu :items="site.menu"></site-menu>
     </v-navigation-drawer>
