@@ -36,7 +36,7 @@ export default {
       return this.$route.query.articleId
     },
     user () {
-      return this.store.state.user
+      return this.$store.state.user
     }
   },
   watch: {
