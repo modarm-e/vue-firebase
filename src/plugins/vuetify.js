@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import Vuetify, { VSnackbar, VBtn, VIcon } from 'vuetify/lib'
 import VuetifyToast from 'vuetify-toast-snackbar' // 오류 catch를 해주는 라이브러리
+import en from 'vuetify/es5/locale/en'
+import ko from 'vuetify/es5/locale/ko'
 
 const veutifyObj = new Vuetify({
-  theme: { dark: false }
+  theme: { dark: false },
+  lang: {
+    locales: { en, ko },
+    current: 'ko'
+  }
 })
 Vue.use(Vuetify, {
   components: {

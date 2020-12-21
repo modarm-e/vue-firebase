@@ -1,35 +1,48 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    :server-items-length="info.count"
-    :options.sync="options"
-    :items-per-page="5"
-    :footer-props="{
-      'items-per-page-options':[5, 10, 20, 30, 50],
-    }"
-    must-sort
-    item-key="id"
-  >
-    <template v-slot:[`item.createdAt`]="{ item }">
-      <display-time :time="item.createdAt"></display-time>
-    </template>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :server-items-length="info.count"
+      :options.sync="options"
+      :items-per-page="5"
+      :footer-props="{
+        'items-per-page-options':[5, 10, 20, 30, 50],
+      }"
+      must-sort
+      item-key="id"
+    >
+      <template v-slot:[`item.createdAt`]="{ item }">
+        <display-time :time="item.createdAt"></display-time>
+      </template>
+      <template v-slot:[`item.title`]="{ item }">
+        <a @click="openDialog(item)">{{item.title}}</a>
+      </template>
+      <template v-slot:[`item.user.displayName`]="{ item }">
+        <display-user :user="item.user"></display-user>
+      </template>
 
-  </v-data-table>
+    </v-data-table>
+    <v-dialog v-if="selectedItem" v-model="dialog" fullscreen>
+      <display-content :item="selectedItem" @close="dialog=false"></display-content>
+    </v-dialog>
+  </div>
 </template>
 <script>
 import { head, last } from 'lodash'
 import DisplayTime from '@/components/display-time'
+import DisplayUser from '@/components/display-user'
+import DisplayContent from '@/components/display-content'
 
 export default {
-  components: { DisplayTime },
+  components: { DisplayTime, DisplayUser, DisplayContent },
   props: ['info', 'document'],
   data () {
     return {
       headers: [
         { value: 'createdAt', text: '작성일' },
         { value: 'title', text: '제목' },
-        { value: 'user', text: '작성자' },
+        { value: 'user.displayName', text: '작성자' },
         { value: 'readCount', text: '조회수' },
         { value: 'commentCount', text: '댓글' }
       ],
@@ -39,7 +52,9 @@ export default {
         sortBy: ['createdAt'],
         sortDesc: [true] // 생성날짜를 기준으로 역순 정렬
       },
-      docs: []
+      docs: [],
+      dialog: false,
+      selectedItem: null
     }
   },
   watch: {
@@ -61,6 +76,9 @@ export default {
         this.subscribe(arrow)
       },
       deep: true
+    },
+    dialog (n) {
+      if (!n) this.selectedItem = null
     }
   },
   created () {
@@ -100,8 +118,11 @@ export default {
           return item
         })
       })
+    },
+    openDialog (item) {
+      this.selectedItem = item
+      this.dialog = true
     }
-
   }
 }
 </script>
