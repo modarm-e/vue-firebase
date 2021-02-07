@@ -11,39 +11,25 @@ const routes = [
     component: Home
   },
   {
+    path: '/board',
+    component: () => import('@/views/board')
+  },
+  {
+    path: '/board/:info',
+    component: () => import('@/views/board/info')
+  },
+  {
+    path: '/board/:info/:article',
+    component: () => import('@/views/board/article')
+  },
+  {
     path: '/about',
-    name: 'About',
     component: () => import('../views/site/about.vue')
   },
   {
     path: '/calendar',
     name: 'Calendar',
     component: () => import('../views/Calendar.vue')
-  },
-  {
-    path: '/board',
-    name: 'board',
-    component: () => import('../views/board/index.vue')
-  },
-  {
-    path: '/storage',
-    name: 'Storage',
-    component: () => import('../views/Storage.vue')
-  },
-  {
-    path: '/editor',
-    name: 'Editor',
-    component: () => import('../views/Editor.vue')
-  },
-  {
-    path: '/:collection/:document',
-    name: 'collection-document',
-    component: () => import('../views/renderer.vue')
-  },
-  {
-    path: '/:collection/:document/:action',
-    name: 'collection-document-action',
-    component: () => import('../views/renderer.vue')
   },
   {
     path: '/*',
