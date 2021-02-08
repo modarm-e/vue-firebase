@@ -5,7 +5,7 @@
         <v-list-title class="title">메뉴</v-list-title>
         <v-list-title >v.0.0.1</v-list-title>
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action v-if="(user && user.level === 0)">
         <v-btn @click="$store.commit('setEdit', !$store.state.editable)" icon> <!--store의 state로 수정 모드로 변경 가능-->
           <v-icon v-text="$store.state.editable ? 'mdi-eye' : 'mdi-pencil'"></v-icon>
         </v-btn>
@@ -131,6 +131,11 @@ export default {
         title: '',
         to: ''
       }
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
     }
   },
   methods: {

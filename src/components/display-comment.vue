@@ -1,7 +1,18 @@
 <template>
   <v-card flat>
     <v-card-title>
-      <v-textarea v-model="comment" rows="3" outlined label="댓글 작성" append-icon="mdi-send" @click:append="save" hide-details></v-textarea>
+      <v-textarea
+        v-model="comment"
+        rows="1" outlined
+        label="댓글 작성"
+        placeholder="Ctrl + Enter로 작성가능"
+        append-icon="mdi-send"
+        @click:append="save"
+        @keypress.ctrl.enter="save"
+        hide-details
+        auto-grow
+        clearable
+        />
     </v-card-title>
     <template v-for="(item, i) in items"> <!--(i)인덱스 넣어준 이유 v-divider를 사용하려면 key가 있어야함-->
       <v-list-item :key="item.id">
@@ -13,8 +24,8 @@
           <v-list-item-subtitle><display-time :time="item.createdAt"></display-time></v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon @click="like(item)">
-            <v-icon :color="liked(item) ? 'pink' : ''">mdi-thumb-up</v-icon>
+          <v-btn icon @click="like(item)" text>
+            <v-icon left :color="liked(item) ? 'pink' : ''">mdi-thumb-up</v-icon>
             <span>{{item.likeCount}}</span>
           </v-btn>
         </v-list-item-action>
@@ -24,7 +35,7 @@
           </v-btn>
         </v-list-item-action>
       </v-list-item>
-      <v-divider :key="i"></v-divider>
+      <v-divider :key="i" v-if="i < items.length - 1"></v-divider>
     </template>
     <v-list-item v-if="lastDoc && items.length < article.commentCount">
       <v-btn @click="more" v-intersect="onIntersect" text color="primary" block>더보기</v-btn>
@@ -56,6 +67,11 @@ export default {
       return this.$store.state.fireUser
     }
   },
+  watch: {
+    docRef () {
+      this.subscribe()
+    }
+  },
   created () {
     this.subscribe()
   },
@@ -83,7 +99,7 @@ export default {
     },
     subscribe () {
       if (this.unsubscribe) this.unsubscribe()
-
+      this.items = []
       this.unsubscribe = this.docRef.collection('comments').orderBy('createdAt', 'desc').limit(LIMIT).onSnapshot(sn => {
         if (sn.empty) {
           this.items = []
@@ -101,6 +117,7 @@ export default {
       if (isIntersecting) this.more()
     },
     async save () {
+      if (!this.comment) throw Error('칸이 비어있습니다.')
       const doc = {
         createdAt: new Date(),
         updatedAt: new Date(),

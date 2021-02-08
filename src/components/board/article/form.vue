@@ -10,9 +10,9 @@
         </v-toolbar>
         <v-card-text>
           <v-text-field v-model="form.title" outlined label="제목"></v-text-field>
-          <editor v-if="articleId === 'new'" :initialValue="form.content" ref="editor" initialEditType="wysiwyg" :options="{ hideModeSwitch: true }"></editor>
+          <editor v-if="articleId === 'new'" :initialValue="form.content" ref="editor" initialEditType="wysiwyg" height="500px" :options="{  }"></editor>
           <template v-else>
-            <editor v-if="form.content" :initialValue="form.content" ref="editor" initialEditType="wysiwyg" :options="{ hideModeSwitch: true }"></editor>
+            <editor v-if="form.content" :initialValue="form.content" ref="editor" initialEditType="wysiwyg" height="500px" :options="{  }"></editor>
             <v-container v-else>
               <v-row justify="center" align="center">
                 <v-progress-circular indeterminate></v-progress-circular>
@@ -85,7 +85,8 @@ export default {
         }
         if (this.articleId === 'new') {
           const id = createdAt.getTime().toString()
-          const sn = await this.$firebase.storage().ref().child('boards').child(this.boardId).child(id + '.md').putString(md)
+          const fn = id + '-' + this.fireUser.uid + '.md'
+          const sn = await this.$firebase.storage().ref().child('boards').child(this.boardId).child(fn).putString(md)
           doc.url = await sn.ref.getDownloadURL()
           doc.createdAt = createdAt
           doc.commentCount = 0
@@ -100,12 +101,13 @@ export default {
           doc.likeUids = []
           await this.ref.collection('articles').doc(id).set(doc)
         } else {
-          await this.$firebase.storage().ref().child('boards').child(this.boardId).child(this.articleId + '.md').putString(md)
+          const fn = this.articleId + '-' + this.article.uid + '.md'
+          await this.$firebase.storage().ref().child('boards').child(this.boardId).child(fn).putString(md)
           await this.ref.collection('articles').doc(this.articleId).update(doc)
         }
+        this.$router.push('/board/' + this.boardId)
       } finally {
         this.loading = false
-        this.$router.push('/board/' + this.boardId)
       }
     }
   }
