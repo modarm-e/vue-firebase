@@ -4,8 +4,19 @@ import VuetifyToast from 'vuetify-toast-snackbar' // 오류 catch를 해주는 �
 import en from 'vuetify/es5/locale/en'
 import ko from 'vuetify/es5/locale/ko'
 
+const theme = {
+  themes: {
+    light: {
+      primary: '#8C030E',
+      secondary: '#024959',
+      accent: '#590202',
+      info: '#26010B'
+    }
+  }
+}
+
 const veutifyObj = new Vuetify({
-  theme: { dark: false },
+  theme,
   lang: {
     locales: { en, ko },
     current: 'ko'
