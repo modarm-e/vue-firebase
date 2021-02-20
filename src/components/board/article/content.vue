@@ -2,7 +2,7 @@
   <v-container fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : '' ">
     <v-card v-if="article" outlined :title="$vuetify.breakpoint.xs">
       <v-toolbar color="transparent" dense flat>
-        <v-toolbar-title>
+        <v-toolbar-title class="font-weight-medium">
           <v-chip color="info" small label class="mr-4">{{article.category}}</v-chip>
           {{article.title}}
         </v-toolbar-title>

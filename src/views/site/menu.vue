@@ -2,7 +2,7 @@
   <div>
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-title class="title">메뉴</v-list-title>
+        <v-list-title class="title">menu</v-list-title>
         <v-list-title >v.0.0.1</v-list-title>
       </v-list-item-content>
       <v-list-item-action v-if="(user && user.level === 0)">

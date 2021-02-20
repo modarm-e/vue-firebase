@@ -12,6 +12,7 @@
         <v-card-title>
           {{item.title}}
         </v-card-title>
+        <v-divider/>
         <v-card-text>
           <viewer v-if="item.summary" :initialValue="item.summary"></viewer>
           <v-container v-else>

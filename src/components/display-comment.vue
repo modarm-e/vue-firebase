@@ -111,13 +111,14 @@ export default {
         this.snapshotToItmes(sn)
       })
     },
-    async more () {
-      if (!this.lastDoc) throw Error('더이상 데이터가 없습니다.')
-      const sn = await this.docRef.collection('comments').orderBy('createdAt', 'desc').startAfter(this.lastDoc).limit(LIMIT).get()
-      this.snapshotToItmes(sn)
-    },
     onIntersect (entries, observer, isIntersecting) {
       if (isIntersecting) this.more()
+    },
+    async more () {
+      const sn = await this.docRef.collection('comments')
+        .orderBy('createdAt', 'desc')
+        .startAfter(this.lastDoc).limit(5).get()
+      this.snapshotToItmes(sn)
     },
     async save () {
       if (!this.fireUser) throw Error('로그인이 필요합니다.')
